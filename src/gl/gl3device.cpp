@@ -1736,7 +1736,9 @@ startSDL3(void)
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, profiles[i].major);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, profiles[i].minor);
 
-		if(mode->flags & VIDEOMODEEXCLUSIVE) {
+		if(glGlobals.pWindow && *glGlobals.pWindow) {
+			win = *glGlobals.pWindow;
+		} else if(mode->flags & VIDEOMODEEXCLUSIVE) {
 			win = SDL_CreateWindow(glGlobals.winTitle, mode->mode.w, mode->mode.h, SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
 			// This is the recommended way for SDL3.
 			if (win) {
@@ -1782,8 +1784,16 @@ startSDL3(void)
 static int
 stopSDL3(void)
 {
-	SDL_GL_DestroyContext(glGlobals.glcontext);
-	SDL_DestroyWindow(glGlobals.window);
+	if(glGlobals.glcontext){
+		SDL_GL_DestroyContext(glGlobals.glcontext);
+		glGlobals.glcontext = NULL;
+	}
+	if(glGlobals.window){
+		SDL_DestroyWindow(glGlobals.window);
+		glGlobals.window = NULL;
+		if(glGlobals.pWindow)
+			*glGlobals.pWindow = NULL;
+	}
 	return 1;
 }
 #elif defined(LIBRW_GLFW)
