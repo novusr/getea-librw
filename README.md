@@ -18,9 +18,18 @@ Rendering some things on the PS2 is working as a test only.
 
 # Uses
 
-librw can be used for rendering [GTA](https://github.com/gtamodding/re3).
+librw can be used for rendering [GTA](https://github.com/gtamodding/re3) and is used as the core graphics backend for [GETEA-MP](https://github.com/novusr/GETEA-MP).
+
+# GETEA Integration
+
+This repository is a dedicated public fork of [librw](https://github.com/aap/librw) for the **GETEA** project (a 1:1 clean-room reimplementation of the GTA San Andreas base game using modern C++20, SDL3, and OpenGL 3.3 Core Profile).
+
+It serves as the runtime rendering backend and hosts custom rendering pipelines tailored for San Andreas (such as building dual-pass day/night vertex coloring, vehicle reflection environment mapping, and hardware skeletal skinning shaders).
+
+- **Main Project:** [GETEA-MP](https://github.com/novusr/GETEA-MP)
+- **Target Backend:** OpenGL 3.3 Core Profile (`GL3`) + `SDL3`
 
 # Building
 
 Get premake5. Generate a config, e.g. with ``premake5 gmake``,
-and look in the build directory.
+and look in the build directory. Or build with CMake directly as embedded in GETEA.
